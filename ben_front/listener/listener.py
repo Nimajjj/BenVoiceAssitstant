@@ -14,6 +14,11 @@ class Listener:
             if not ACTIVATION_PHRASE in text.lower():
                 continue
             self.transcript = text
+
+    def extract_transcript(self) -> str:
+        ret: str = self.transcript.strip().lower()
+        self.transcript = ""    
+        return ret
     
 
     def _listen(self) -> str:

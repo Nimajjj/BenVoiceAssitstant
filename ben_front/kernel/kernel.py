@@ -25,7 +25,7 @@ class Kernel:
             self.t1.start()
 
             # start monitor
-            transcript: str = self.listener.transcript.strip().lower()
+            transcript: str = self.listener.extract_transcript()
             self.monitor = Monitor()        
             self.monitor.start(transcript)
 
