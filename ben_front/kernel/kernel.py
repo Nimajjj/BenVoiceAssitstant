@@ -1,6 +1,8 @@
+import multiprocessing
 import threading
 import requests
 import time
+import pyttsx3 # text to speech
 
 from listener.listener import Listener
 from monitor.monitor import Monitor
@@ -16,27 +18,28 @@ class Kernel:
         self.lock = threading.Lock()
 
         self.transcript = ""
+        self.monitor = None
 
 
     def run(self) -> None:
         while True:
-            # wait for something to be said
-            while self.transcript == "":
-                self.transcript = self.listener.listen()
-                if not "hey" in self.transcript:
-                    self.transcript = "" # cancel tr if it don't contains activation key
-            print("aaaaaaaaa")
-            
-            # send transcript to back end server
-            self.t1 = threading.Thread(target=self._request_thread)
-            self.t1.start()
+            # Wait for something to be said
+            self.transcript = self.listener.listen()
+            if not "hey" in self.transcript:
+                self.transcript = ""  # Cancel transcript if it doesn't contain activation key
+                continue
 
-            # start monitor on main loop
-            self.monitor = Monitor()        
-            self.monitor.start()
+            # Send transcript to back-end server
+            t1 = threading.Thread(target=self._request_thread)
+            t1.start()
 
-            # get back thread
-            self.t1.join()
+            # Start the monitor on first interaction
+            if self.monitor is None:
+                self.monitor = Monitor()
+                self.monitor.start()
+
+            # Ensure thread completion
+            t1.join()
 
     
     def _request_thread(self, listen = False) -> None:
@@ -59,7 +62,7 @@ class Kernel:
             self.monitor.user_message(copy_tr)
             self.lock.release()
 
-        if "quit" in copy_tr:
+        if "exit" in copy_tr:
             self.lock.acquire()
             self.monitor.stop()
             self.monitor = None
@@ -87,6 +90,22 @@ class Kernel:
         self.monitor.ben_message(answer)
         self.lock.release()
 
+        # TTS in a non-blocking manner using a new process
+        tts_process = multiprocessing.Process(target=self._speak, args=(answer,))
+        tts_process.start()
+        tts_process.join()
+
+
         # Start listening again
         print("[ INFO] Ready to listen again...")
         self._request_thread(listen=True)
+
+
+    @staticmethod
+    def _speak(text: str):
+        try:
+            tts = pyttsx3.init()
+            tts.say(text)
+            tts.runAndWait()  # Blocks until TTS finishes
+        except Exception as e:
+            print(f"[ERROR] TTS failed: {e}")
