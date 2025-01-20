@@ -35,11 +35,10 @@ class Monitor(Gtk.Window):
             self.panel_history.show()
 
     
-    def start(self, transcript: str) -> None:
+    def start(self) -> None:
         self.connect("destroy", Gtk.main_quit)
         self.show_all()
         self.toggle_left_panel()
-        self.panel_transcript.user_message(transcript)
         self.set_keep_above(True)
         self.present()
         Gtk.main()
@@ -49,4 +48,11 @@ class Monitor(Gtk.Window):
         """Stop the GTK main loop and destroy the window."""
         Gtk.main_quit()
         self.destroy()
+
+
+    def ben_message(self, message: str) -> None:
+        self.panel_transcript.ben_message(message)
+
+    def user_message(self, message: str) -> None:
+        self.panel_transcript.user_message(message)
 

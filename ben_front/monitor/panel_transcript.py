@@ -35,21 +35,21 @@ class PanelTranscript(Gtk.Box):
         message_chunks = []
 
         # Add a Separator after the message
-        self.message_list_store.prepend([" "])
+        self.message_list_store.append([" "])
 
         for word in words:
             if sum(len(w) + 1 for w in current_line) + len(word) <= max_length:
                 current_line.append(word)
             else:
                 formatted_message = ' '.join(current_line)
-                message_chunks.insert(0, formatted_message)
+                message_chunks.append(formatted_message)
                 current_line = [word]
         if current_line:
             formatted_message = ' '.join(current_line)
-            message_chunks.insert(0, formatted_message)
+            message_chunks.append(formatted_message)
 
         for chunk in message_chunks:
-            self.message_list_store.prepend([chunk])
+            self.message_list_store.append([chunk])
 
 
     def user_message(self, text: str) -> None:

@@ -1,24 +1,16 @@
 import speech_recognition as sr
 
-ACTIVATION_PHRASE: str = "hey"
 
 class Listener:
     def __init__(self):
         self.rec = sr.Recognizer()
-        self.transcript: str = ""
 
 
-    def start(self) -> None:
-        while self.transcript == "":
+    def listen(self) -> str:
+        text = ""
+        while text == "":
             text = self._listen()
-            if not ACTIVATION_PHRASE in text.lower():
-                continue
-            self.transcript = text
-
-    def extract_transcript(self) -> str:
-        ret: str = self.transcript.strip().lower()
-        self.transcript = ""    
-        return ret
+        return text.strip().lower()
     
 
     def _listen(self) -> str:
