@@ -51,7 +51,7 @@ class Kernel:
         )
 
         pycoink.Log.info("Status code: ", response.status_code)
-        pycoink.Log.info("Response Text: ", response.text)
+        pycoink.Log.info("Response Data: ", response.data)
 
         # wait for answer
         pycoink.Log.info("Waiting for ben_back answer ...")
