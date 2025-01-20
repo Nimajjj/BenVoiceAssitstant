@@ -57,6 +57,17 @@ class Kernel:
         # TODO : call APIController with given strategy
         #   it is APIController that decider what to do depending on the strategy
         #   it will probably looks like `self.api_controller.query(strategy)`
+        
+
+        # DEBUG #####################
+        prout: dict = {
+            "code": 0,
+            "data": {
+                "transcript": "Hey! It is actually sunny in Paris, with 17 degrees celcius!"
+            }
+        }
+        return prout
+        ############################# 
 
         WTF: dict = {
             "code": -1,
@@ -66,7 +77,15 @@ class Kernel:
 
 
     def parse_transcript(self, transcript: str) -> dict:
-        result: dict = {}
+        # TODO : parse transcript using Mistral AI
+        result: dict = {
+            "action": Action.WEATHER,
+            "data": {
+                "location": "Paris",
+                "time": "21/01/2025"
+            }
+        }
+        return result
 
         
     def start(self) -> None:
