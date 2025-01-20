@@ -4,8 +4,6 @@ import requests
 from listener.listener import Listener
 from monitor.monitor import Monitor
 
-from PyCoink import pycoink
-
 URL = "http://127.0.0.1:5555/api"
 ENDPOINT_ASK = "/ask"
 ENDPOINT_ANS = "/answer"
@@ -38,7 +36,7 @@ class Kernel:
     
     def _request_thread(self) -> None:
         # send transcript to back
-        pycoink.Log.info("Sending '", self.listener.transcript, "' to ",  URL + ENDPOINT_ASK , " ...")
+        print("Sending '", self.listener.transcript, "' to ",  URL + ENDPOINT_ASK , " ...")
         
         self.lock.acquire()
         data = self.listener.transcript
@@ -50,11 +48,11 @@ class Kernel:
             headers=HEADERS
         )
 
-        pycoink.Log.info("Status code: ", response.status_code)
-        pycoink.Log.info("Response Data: ", response.data)
+        print("Status code: ", response.status_code)
+        print("Response Data: ", response.data)
 
         # wait for answer
-        pycoink.Log.info("Waiting for ben_back answer ...")
+        print("Waiting for ben_back answer ...")
 
         # send answer to monitor
         # listen again
