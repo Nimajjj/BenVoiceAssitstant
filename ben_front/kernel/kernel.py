@@ -12,25 +12,32 @@ HEADERS = {"Content-Type": "text/plain"}
 class Kernel:
     def __init__(self):
         self.listener = Listener()
-
         self.lock = threading.Lock()
 
 
-    def start(self) -> None:
-        # wait for something to be said
-        self.listener.start()
-        
-        # send transcript to back end server
-        self.t1 = threading.Thread(target=self._request_thread)
-        self.t1.start()
+    def run(self) -> None:
+        while True:
+            # wait for something to be said
+            self.listener.start()
+            
+            # send transcript to back end server
+            self.t1 = threading.Thread(target=self._request_thread)
+            self.t1.start()
 
-        # start monitor
-        transcript: str = self.listener.transcript
-        self.monitor = Monitor()        
-        self.monitor.start(transcript)
+            # start monitor
+            transcript: str = self.listener.transcript.strip().lower()
+            self.monitor = Monitor()        
+            self.monitor.start(transcript)
 
-        # get back thread
-        self.t1.join()
+            # get back thread
+            self.t1.join()
+
+            if "quit program" in transcript:
+                print("[ INFO] 'quit' command received. Exiting...")
+                self.monitor.stop()  # Assuming monitor has a stop method
+                break
+            
+        self.monitor = None
 
     
     def _request_thread(self) -> None:
@@ -53,13 +60,12 @@ class Kernel:
         
         response_data = response.json()["data"]
         answer: str = response_data["transcript"]
-        print(f"Server answer is : '{answer}'")
+        print(f"[DEBUG] Server answer is : '{answer}'")
                 
+        # send answer to monitor
         self.lock.acquire()
         self.monitor.panel_transcript.ben_message(answer)
         self.lock.release()
 
-        # send answer to monitor
-        # listen again
-        # if listen == stop : get back to listener,start()
-        # else : print transpcript && send to back 
+        # Start listening again
+        print("[ INFO] Ready to listen again...")

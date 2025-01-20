@@ -44,3 +44,9 @@ class Monitor(Gtk.Window):
         self.present()
         Gtk.main()
 
+
+    def stop(self) -> None:
+        """Stop the GTK main loop and destroy the window."""
+        Gtk.main_quit()
+        self.destroy()
+
