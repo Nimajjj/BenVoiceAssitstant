@@ -28,22 +28,22 @@ class Kernel:
     def process_demand(self, transcript: str) -> Strategy:
         intent: dict = self.parse_transcript(transcript)
 
-        if intent.get("action", Action.UNKNOWN) == Action.QUIT:
-            return Strategy(Action.QUIT, intent.get("data", {}))
+        if intent["action"] == Action.QUIT:
+            return Strategy(Action.QUIT, intent["data"])
 
-        if intent.get("action", Action.UNKNOWN) == Action.WEATHER:
-            return Strategy(Action.WEATHER, intent.get("data", {}))
+        if intent["action"] == Action.WEATHER:
+            return Strategy(Action.WEATHER, intent["data"])
         
-        if intent.get("action", Action.UNKNOWN) == Action.MUSIC:
-            return Strategy(Action.MUSIC, intent.get("data", {}))
+        if intent["action"] == Action.MUSIC:
+            return Strategy(Action.MUSIC, intent["data"])
 
-        if intent.get("action", Action.UNKNOWN) == Action.EMAIL:
-            return Strategy(Action.EMAIL, intent.get("data", {}))
+        if intent["action"] == Action.EMAIL:
+            return Strategy(Action.EMAIL, intent["data"])
         
-        if intent.get("action", Action.UNKNOWN) == Action.SEARCH:
-            return Strategy(Action.SEARCH, intent.get("data", {}))
+        if intent["action"] == Action.SEARCH:
+            return Strategy(Action.SEARCH, intent["data"])
         
-        return Strategy(Action.UNKNOWN, intent.get("data", {}))
+        return Strategy(Action.UNKNOWN, intent["data"])
         
 
     def execute_demand(self, strategy: Strategy) -> dict:
