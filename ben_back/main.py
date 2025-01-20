@@ -3,8 +3,7 @@ from kernel.kernel import Kernel
 
 def main() -> None:
     kernel = Kernel()
-    while True:
-        kernel.run()
+    kernel.start()
 
 
 if __name__ == "__main__":
