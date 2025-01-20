@@ -8,7 +8,7 @@ class Kernel:
     def __init__(self):
         self.router = Router()
         self.router.add_endpoint('/api/ask', 'ask', self.route_ask, methods=['POST'])
-        self.rooter.add_endpoint('/api/asnwer', 'asnwer', self.route_answer, methods=['GET'])
+        self.router.add_endpoint('/api/asnwer', 'asnwer', self.route_answer, methods=['GET'])
         
     def route_ask(self):
         # Logic for POST request
