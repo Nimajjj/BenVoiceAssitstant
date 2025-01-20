@@ -62,18 +62,15 @@ class Kernel:
         # DEBUG #####################
         prout: dict = {
             "code": 0,
-            "data": {
-                "transcript": "Hey! It is actually sunny in Paris, with 17 degrees celcius!"
-            }
+            "transcript": "Hey! It is actually sunny in Paris, with 17 degrees celcius!"
         }
         return prout
         ############################# 
 
-        WTF: dict = {
+        return {
             "code": -1,
-            "message": "Something unexpected happened."
+            "transcript": "Something unexpected happened."
         }
-        return WTF
 
 
     def parse_transcript(self, transcript: str) -> dict:
