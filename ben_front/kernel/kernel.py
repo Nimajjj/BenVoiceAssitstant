@@ -38,7 +38,7 @@ class Kernel:
     
     def _request_thread(self) -> None:
         # send transcript to back
-        pycoink.Log.info("Sending '", self.listener.transcript, "' to 127.0.0.1:5555 ...")
+        pycoink.Log.info("Sending '", self.listener.transcript, "' to ",  URL + ENDPOINT_ASK , " ...")
         
         self.lock.acquire()
         data = self.listener.transcript
