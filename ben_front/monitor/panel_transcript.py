@@ -28,27 +28,32 @@ class PanelTranscript(Gtk.Box):
 
 
     def new_message(self, text: str) -> None:
-        max_length = math.floor(self.width / 6) # Adjust this value based on panel width
+        max_length = math.floor(self.width / 5) # Adjust this value based on panel width
         words = text.split()
         current_line = []
+
+        message_chunks = []
+
+        # Add a Separator after the message
+        self.message_list_store.prepend([" "])
 
         for word in words:
             if sum(len(w) + 1 for w in current_line) + len(word) <= max_length:
                 current_line.append(word)
             else:
                 formatted_message = ' '.join(current_line)
-                self.message_list_store.append([formatted_message])
+                message_chunks.insert(0, formatted_message)
                 current_line = [word]
         if current_line:
             formatted_message = ' '.join(current_line)
-            self.message_list_store.append([formatted_message])
+            message_chunks.insert(0, formatted_message)
 
-        # Add a GTK Separator after the message
-        self.message_list_store.append(["_" * (max_length - 1)])
+        for chunk in message_chunks:
+            self.message_list_store.prepend([chunk])
 
 
     def user_message(self, text: str) -> None:
-        self.new_message("Me  -  " + text)
+        self.new_message("Me  -  " + text.capitalize())
 
 
     def ben_message(self, text: str) -> None:

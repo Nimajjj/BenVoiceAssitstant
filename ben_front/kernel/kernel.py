@@ -19,7 +19,6 @@ class Kernel:
     def start(self) -> None:
         # wait for something to be said
         self.listener.start()
-        # transcript: str = "Hey Ben, what is the weather in Aix-en-Provence right now?"
         
         # send transcript to back end server
         self.t1 = threading.Thread(target=self._request_thread)
@@ -27,8 +26,8 @@ class Kernel:
 
         # start monitor
         transcript: str = self.listener.transcript
-        monitor = Monitor()        
-        monitor.start(transcript)
+        self.monitor = Monitor()        
+        self.monitor.start(transcript)
 
         # get back thread
         self.t1.join()
@@ -48,11 +47,17 @@ class Kernel:
             headers=HEADERS
         )
 
-        print("Status code: ", response.status_code)
-        print("Response Data: ", response.data)
-
-        # wait for answer
-        print("Waiting for ben_back answer ...")
+        if response.status_code != 200:
+            print("[ERROR] ", response.json())
+            return
+        
+        response_data = response.json()["data"]
+        answer: str = response_data["transcript"]
+        print(f"Server answer is : '{answer}'")
+                
+        self.lock.acquire()
+        self.monitor.panel_transcript.ben_message(answer)
+        self.lock.release()
 
         # send answer to monitor
         # listen again

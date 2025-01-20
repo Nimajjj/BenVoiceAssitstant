@@ -40,7 +40,7 @@ class Monitor(Gtk.Window):
         self.show_all()
         self.toggle_left_panel()
         self.panel_transcript.user_message(transcript)
-        self.panel_transcript.ben_message("Hi, today in aix en provence the weather is sunny, with 18 degree celcius.")
-
+        self.set_keep_above(True)
+        self.present()
         Gtk.main()
 
