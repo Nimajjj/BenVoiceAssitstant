@@ -1,7 +1,7 @@
 import requests
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
-
+#Doc : https://developer.spotify.com/documentation/web-api
 
 class ModelApiMusic:
     def __init__(self, client_id, client_secret, redirect_url):

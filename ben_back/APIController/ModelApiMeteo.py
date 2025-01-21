@@ -1,4 +1,5 @@
 import requests
+# Doc : https://openweathermap.org/guide
 
 class ModelApiMeteo:
     def __init__(self, openWeatherMap_api_key, openWeatherMap_api_url = "http://api.openweathermap.org/data/2.5/weather" ):
