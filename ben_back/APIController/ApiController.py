@@ -33,6 +33,6 @@ class ApiController:
 
     # Fonction pour l'envoie de mail
     def send_email(self, destinataire, subject, body):
-        if not hasattr(self, 'modelApiMail'):
-            raise AttributeError("This ApiController instance is not configured for mail API")
+        self.controller.send_email(destinataire, subject, body)
+
         return self.modelApiMail.send_email(destinataire, subject, body)

@@ -18,8 +18,12 @@ class Strategist:
                 "{\n  \"action\": \"weather\",\n  \"data\": {\n    \"location\": \"<location>\",\n    \"time\": \"<time>\"\n  }\n}\n\n"
                 "2. Music:\n"
                 "{\n  \"action\": \"music\",\n  \"data\": {\n    \"song\": \"<song>\"}\n}\n\n"
+                "if no specific song is given :"
+                "{\n  \"action\": \"music\",\n  \"data\": {\n    \"song\": \"random\"}\n}\n\n"
                 "3. Email:\n"
                 "{\n  \"action\": \"email\",\n  \"data\": {\n    \"recipient\": \"<recipient>\",\n    \"subject\": \"<subject>\",\n    \"body\": \"<body>\"\n  }\n}\n\n"
+                "4. General information:\n"
+                "{\n  \"action\": \"search\",\n  \"data\": {\n    \"answer\": \"<answer>\"}\n}\n\n"
                 "Respond strictly using one of these templates, filling in the appropriate fields based on the input."
             )
         }
