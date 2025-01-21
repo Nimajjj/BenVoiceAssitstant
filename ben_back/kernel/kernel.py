@@ -4,6 +4,7 @@ from router.router import Router
 from strategy.strategy import Strategy
 from strategy.strategist import Strategist
 from api_orchestrator.api_orchestrator import APIOrchestrator
+from DBController import DBController
 
 class Kernel:
     def __init__(self):
@@ -21,12 +22,14 @@ class Kernel:
     def route_ask(self):
         # Logic for POST request
         data: str = request.get_data(as_text=True) 
-
         strategy: Strategy = self.strategist.process_demand(data)
         print(f"[DEBUG] strategy: {strategy}")
+
         response: int = self.orchestrator.execute(strategy)
         print(f"[DEBUG] response: {response}")
-
+        print("[transcript]")
+        DBController.write(data, response)
+        DBController.close()
         return jsonify({"message": "POST request has been received correctly", "data": response})
 
 
