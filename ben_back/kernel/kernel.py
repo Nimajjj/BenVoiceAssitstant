@@ -4,7 +4,7 @@ from router.router import Router
 from strategy.strategy import Strategy
 from strategy.strategist import Strategist
 from api_orchestrator.api_orchestrator import APIOrchestrator
-from DBController import DBController
+from DBController.DBController import DBController
 
 class Kernel:
     def __init__(self):
@@ -13,6 +13,7 @@ class Kernel:
         self.router.add_endpoint('/api/asnwer', 'asnwer', self.route_answer, methods=['GET'])
         self.strategist = Strategist()
         self.orchestrator = APIOrchestrator()
+        self.db_controller = None
 
         
     def start(self) -> None:
@@ -25,11 +26,13 @@ class Kernel:
         strategy: Strategy = self.strategist.process_demand(data)
         print(f"[DEBUG] strategy: {strategy}")
 
-        response: int = self.orchestrator.execute(strategy)
+        response: dict = self.orchestrator.execute(strategy)
         print(f"[DEBUG] response: {response}")
-        print("[transcript]")
-        DBController.write(data, response)
-        DBController.close()
+
+        if not self.db_controller:
+            self.db_controller = DBController()
+        self.db_controller.write(data, response["transcript"])
+        self.db_controller.close()
         return jsonify({"message": "POST request has been received correctly", "data": response})
 
 

@@ -1,7 +1,7 @@
 import sqlite3
 
 class DBController:
-    def __init__(self, db_name="ben.db"):
+    def __init__(self, db_name="/Users/pat/workspace/BenVoiceAssitstant/ben_back/DBController/ben.db"):
         self.conn = sqlite3.connect(db_name)
         self.cursor = self.conn.cursor()
 
