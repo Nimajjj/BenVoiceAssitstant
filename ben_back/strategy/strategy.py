@@ -23,7 +23,9 @@ class Action(Enum):
         if act == "search":
             return Action.SEARCH
         return Action.UNKNOWN
-        
+    
+    def to_str(self) -> str:
+        return f"{self.__class__.__name__}.{self.name}"
 
 class Strategy:
     def __init__(self, action: Action, data: dict):
